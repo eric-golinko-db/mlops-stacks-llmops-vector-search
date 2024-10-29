@@ -1,0 +1,30 @@
+# Please complete all the TODOs in this file.
+# The regression monitor defined here works OOB with this example regression notebook: {{ template `generate_doc_link` (map (pair "cloud" .input_cloud) (pair "path" "_extras/notebooks/source/monitoring/regression-monitor.html")) }}
+# NOTE: Monitoring only works on Unity Catalog tables.
+
+new_cluster: &new_cluster
+  new_cluster:
+    num_workers: 3
+    spark_version: 15.3.x-cpu-ml-scala2.12
+    node_type_id: {{template `cloud_specific_node_type_id` .}}
+    custom_tags:
+      clusterSource: mlops-stacks_{{template `stacks_version` .}}
+
+common_permissions: &permissions
+  permissions:
+    - level: CAN_VIEW
+      group_name: users
+
+resources:
+  jobs:
+    create_vector_search:
+      name: ${bundle.target}-{{ .input_project_name }}-vs-index
+      tasks:
+        - task_key: create_vector_search
+          <<: *new_cluster
+          notebook_task:
+            notebook_path: ../vector_search/notebooks/CreateVectorSearch.py
+            base_parameters:
+              env: ${bundle.target}
+              # git source information of current ML resource deployment. It will be persisted as part of the workflow run
+              git_source_info: url:${bundle.git.origin_url}; branch:${bundle.git.branch}; commit:${bundle.git.commit}
