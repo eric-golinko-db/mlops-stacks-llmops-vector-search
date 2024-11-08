@@ -46,3 +46,15 @@ else:
   vsc.get_index(VECTOR_SEARCH_ENDPOINT_NAME, vs_index_fullname).sync()
 
 print(f"index {vs_index_fullname} on table {source_table_fullname} is ready")
+
+# COMMAND ----------
+
+vector_index=vsc.get_index(endpoint_name=VECTOR_SEARCH_ENDPOINT_NAME, index_name=vs_index_fullname)
+
+# COMMAND ----------
+
+import databricks 
+import time
+from utils import check_index_online
+
+check_index_online(vs_index_fullname, vector_index)
