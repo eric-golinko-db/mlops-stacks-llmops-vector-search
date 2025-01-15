@@ -222,3 +222,5 @@ To create an example GCP project, using GitHub Actions for CI/CD, run:
 MLOPS_STACKS_PATH=~/mlops-stacks
 databricks bundle init "$MLOPS_STACKS_PATH" --config-file "$MLOPS_STACKS_PATH/tests/example-project-configs/gcp/gcp-github.json"
 ```
+
+# small change
